@@ -11,7 +11,7 @@ const Cheerio1aee = async () => {
         let arr = [];  //массив в который будем  пушить данные
         let i = 1;        //счетчик страниц
         let flag = false;    //флаг для проверки конца страниц
-        i = 43;
+        i = 39;
         //в цыкле while проходим по всем страницам паггинации  и парсим
         while (true) {
             console.log('step = ', i);
@@ -24,10 +24,16 @@ const Cheerio1aee = async () => {
                     let html = res;    //весь html получееный с ссылки.. тоесть вся страница
                     const $ = cheerio.load(html); // загружаем все в cheerio
                     let pagination = $('a.next.inactive.non-clickable').html(); //последняя стрелочка пагинации
-
                     $(html).find('div.catalog-taxons-product').each((index, element) => {
                         let item = {
-                            price: $(element).find('span.catalog-taxons-product-price__item-price').text().replace(/\s+/g, '')
+                            price: $(element).find('span.catalog-taxons-product-price__item-price').text().replace(/\s+/g, ''),
+                            image: $(element).find('img.catalog-taxons-product__image').attr('src').trim(),
+                            name: $(element).find('a.catalog-taxons-product__name').text().replace(/\s+/g, ' ').trim(),
+                            type: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(0).text().replace(/\s+/g, ' ').trim(),
+                            wireless: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(1).text().replace(/\s+/g, ' ').trim(),
+                            frequency: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(2).text().replace(/\s+/g, ' ').trim(),
+                            resistance: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(3).text().replace(/\s+/g, ' ').trim(),
+                            sensitivity: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(4).text().replace(/\s+/g, ' ').trim()
                         };
 
                         arr.push(item);
