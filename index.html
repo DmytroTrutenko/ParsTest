@@ -9,20 +9,25 @@
 <body>
 <h1>Parsing 1A.ee</h1><br>
 <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">CHEERIO PARSING</button>
-<button onclick="clickedDownload()" type="button" id="btnDownload" class="btn btn-secondary">download json</button>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
+
     $(() => { //подключаем сокет с клиентской стороны
         const socket = io.connect();
 
         clickedCheerio = () => {
             socket.emit('clickedCheerio');
-        }
+        };
 
-    })
+        socket.on('receiveObject', (data)=> {
+            console.log(data)
+        })
+    });
+
 </script>
 </body>
 </html>
