@@ -1,6 +1,6 @@
 const fs = require('fs');  //Подключаем модуль для работы с файловой системой
 const axios = require('axios');  //Подключаем модуль для работы с запросами на сервер
-const cheerio = require('cheerio'); //Подключаем модуль для работы с парсером Cheerio
+const cheerioPars = require('cheerio'); //Подключаем модуль для работы с парсером Cheerio
 
 let link = 'https://www.1a.ee/ru/c/tv-audio-video-igrovye-pristavki/audio-apparatura/naushniki/3sn?page=';
 
@@ -22,7 +22,7 @@ const Cheerio1aee = async () => {
 
                     //здесь работаем с пасрером и с полученным HTML (основная работа)
                     let html = res;    //весь html получееный с ссылки.. тоесть вся страница
-                    const $ = cheerio.load(html); // загружаем все в cheerio
+                    const $ = cheerioPars.load(html); // загружаем все в cheerioPars
                     let pagination = $('a.next.inactive.non-clickable').html(); //последняя стрелочка пагинации
                     $(html).find('div.catalog-taxons-product').each((index, element) => {
                         let item = {
@@ -64,6 +64,6 @@ const Cheerio1aee = async () => {
 };
 
 
-Cheerio1aee();
+// Cheerio1aee();
 
-// module.exports = Cheerio1aee;
+ module.exports = Cheerio1aee;
