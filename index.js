@@ -49,12 +49,12 @@ io.sockets.on('connection', (socket) => {
                             let item = {
                                 price: $(element).find('span.catalog-taxons-product-price__item-price').text().replace(/\s+/g, ''),
                                 image: $(element).find('img.catalog-taxons-product__image').attr('src').trim(),
-                                name: $(element).find('a.catalog-taxons-product__name').text().replace(/\s+/g, ' ').trim(),
-                                type: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(0).text().replace(/\s+/g, ' ').trim(),
-                                wireless: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(1).text().replace(/\s+/g, ' ').trim(),
-                                frequency: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(2).text().replace(/\s+/g, ' ').trim(),
-                                resistance: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(3).text().replace(/\s+/g, ' ').trim(),
-                                sensitivity: $(element).find('ul.catalog-taxons-product-key-attribute-list li').eq(4).text().replace(/\s+/g, ' ').trim()
+                                name: $(element).find('a.catalog-taxons-product__name').text().replace(/\s+/g,   ' ').replace(/Наушники/i,   '').trim(),
+                                type: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(0).text().replace(/\s+/g, ' ').trim(),
+                                wireless: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(1).text().replace(/\s+/g, ' ').trim(),
+                                frequency: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(2).text().replace(/\s+/g, ' ').trim(),
+                                resistance: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(3).text().replace(/\s+/g, ' ').trim(),
+                                sensitivity: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(4).text().replace(/\s+/g, ' ').trim()
                             };
 
                             arr.push(item);
@@ -77,6 +77,7 @@ io.sockets.on('connection', (socket) => {
                     fs.writeFile('1aCheerio.json', JSON.stringify(arr), (err) => {
                         if (err) throw  err;
                         console.log('Saved 1aCheerio.json file');
+                        socket.emit('savedFile');
                     });
                     break;
                 }
