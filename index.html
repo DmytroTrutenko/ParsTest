@@ -5,37 +5,88 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
-        .table{
+        .table_wrap {
             display: none;
         }
 
-        .view{
+        .table th, .table td {
+            border: 2px solid #fff;
+            padding: 10px 30px;
+            font-weight: 500;
+            color: #444444;
+            background-color: #fdf5d1;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .table th {
+            vertical-align: middle;
+            text-align: center;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .table {
+            width: 100%;
+            font-size: 14px;
+            border-radius: 20px;
+            overflow: hidden;
+            border-spacing: 0;
+            border-collapse: separate;
+            margin-bottom: 50px;
+            margin-top: 50px;
+        }
+
+        .table thead th {
+            font-weight: 500;
+            color: #fff;
+            background-color: #8074f2;
+            border-bottom: 2px solid #fff;
+            vertical-align: middle;
+        }
+
+        .view {
             display: block;
+        }
+
+        .img_td {
+            word-break: break-word;
+        }
+        .img_td img{
+            display: block;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
         }
     </style>
     <title>Cheerio parsing</title>
 </head>
 <body>
-<h1>Парсим данные с сайта 1A.ee - Все наушники в продаже</h1><br>
-<button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">Парсить с помощью CHEERIO</button>
-<button onclick="viewTable()" type="button" id="btnView" class="btn btn-danger">Показать данные</button>
 
-<table id='table' class="table">
-    <th>
-        <tr>
-            <th>№ продукта</th>
-            <th>Название</th>
-            <th>Цена</th>
-            <th>Путь изображения</th>
-            <th>Тип наушников</th>
-            <th>Беспроводная связь</th>
-            <th>Частотный диапазон</th>
-            <th>Сопротивление</th>
-            <th>Чувствительность</th>
-        </tr>
-    </th>
-    <tbody></tbody>
-</table>
+<div class="container">
+    <h1>Парсим данные с сайта 1A.ee - Все наушники в продаже</h1><br>
+    <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">Парсить с помощью CHEERIO</button>
+    <button onclick="viewTable()" type="button" id="btnView" class="btn btn-danger">Показать данные</button>
+    <div id='table_wrap' class="table_wrap">
+        <table id='table' class="table">
+            <thead>
+            <tr>
+                <th>№ продукта</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Изображение</th>
+                <th>Тип наушников</th>
+                <th>Беспроводная связь</th>
+                <th>Частотный диапазон</th>
+                <th>Сопротивление</th>
+                <th>Чувствительность</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -51,6 +102,11 @@
         socket.on('savedFile', () => {
             alert('Файл 1aCheerio.json был сохранен на сервере');
         });
+        socket.on('isTime', (isTime) => {
+            let timePars = [];
+            timePars = isTime;
+            console.log(timePars.isTime + ' ms')
+        });
         socket.on('receiveObject', (data) => {
             drawTable(data);
         });
@@ -60,26 +116,28 @@
             }
         };
         drawRow = (rowData, i) => {
-            var row = $("<tr />")
+
+            let row = $("<tr />");
             $("#table").append(row);
             row.append($("<td>" + (i + 1) + "</td>"));
             row.append($("<td>" + rowData.name + "</td>"));
             row.append($("<td>" + rowData.price + "</td>"));
-            row.append($("<td>" + rowData.image + "</td>"));
+            row.append($("<td class='img_td'>" + "<img class='img_table' src=" + rowData.image + " alt=''>" + "</td>"));
             row.append($("<td>" + rowData.type + "</td>"));
             row.append($("<td>" + rowData.wireless + "</td>"));
             row.append($("<td>" + rowData.frequency + "</td>"));
             row.append($("<td>" + rowData.resistance + "</td>"));
             row.append($("<td>" + rowData.sensitivity + "</td>"));
-        }
+        };
 
 
         viewTable = () => {
             let tbl = document.getElementById('table');
-            if(tbl.rows.length==2){
+            let tbl_wrap = document.getElementById('table_wrap');
+            if (tbl.rows.length == 1) {
                 alert('Данные не получены');
-            }else{
-                tbl.classList.add("view");
+            } else {
+                tbl_wrap.classList.add("view");
             }
         }
     });

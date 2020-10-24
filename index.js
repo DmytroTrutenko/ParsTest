@@ -29,7 +29,7 @@ io.sockets.on('connection', (socket) => {
     //главная функция Cheerio
     const Cheerio1aee = async () => {
         try {
-
+            const start = new Date().getTime();
             let i = 1;        //счетчик страниц
             let flag = false;    //флаг для проверки конца страниц
             i = 39;
@@ -76,6 +76,10 @@ io.sockets.on('connection', (socket) => {
                     //создаем новый файл с новыми данными
                     fs.writeFile('1aCheerio.json', JSON.stringify(arr), (err) => {
                         if (err) throw  err;
+                        const end = new Date().getTime();
+                        const isTime = end - start;
+                        console.log(isTime + 'ms');
+                        socket.emit('isTime', {isTime:isTime});
                         console.log('Saved 1aCheerio.json file');
                         socket.emit('savedFile');
                     });
@@ -95,5 +99,6 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('clickedCheerio', () => {
         Cheerio1aee();
+
     });
 });
