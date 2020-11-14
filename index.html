@@ -28,7 +28,7 @@
 
         .table {
             width: 100%;
-            font-size: 14px;
+            font-size: 20px;
             border-radius: 20px;
             overflow: hidden;
             border-spacing: 0;
@@ -107,9 +107,11 @@
             timePars = isTime;
             console.log(timePars.isTime + ' ms')
         });
+
         socket.on('receiveObject', (data) => {
             drawTable(data);
         });
+
         drawTable = (data) => {
             for (let i = 0; i < data.length; i++) {
                 drawRow(data[i], i);
