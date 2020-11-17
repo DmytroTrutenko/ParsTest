@@ -11,6 +11,7 @@ const axios = require('axios');  //Подключаем модуль для ра
 const cheerioPars = require('cheerio'); //Подключаем модуль для работы с парсером Cheerio
 const puppeteer = require('puppeteer');
 // const osmosis = require('osmosis');
+const Apify = require('apify');
 
 let link = 'https://www.1a.ee/ru/c/tv-audio-video-igrovye-pristavki/audio-apparatura/naushniki/3sn?page=';
 let dataC = [];  //массив в который будем  пушить данные
@@ -205,6 +206,62 @@ io.sockets.on('connection', (socket) => {
     // });
     //Osmosis
 
+    //ApifySDK
+    const Apify1aee = async () => {
+        try {
+            Apify.main(async () => {
+                const requestList = await Apify.openRequestList('my-list', [
+                    { url: link }
+                ]);
+                const crawler = new Apify.CheerioCrawler({
+                    requestList,
+                    minConcurrency: 10,
+                    maxConcurrency: 50,
+                    maxRequestRetries: 1,
+                    handlePageTimeoutSecs: 30,
+                    maxRequestsPerCrawl: 10,
+
+
+                    handlePageFunction: async ({ request, $ }) => {
+                        console.log(`Processing ${request.url}...`);
+
+                        const dataA = [];
+
+                        // Do some data extraction from the page with Cheerio.
+                        $('div.catalog-taxons-product').each((index, element) => {
+                            dataA.push({
+                                price: $(element).find('span.catalog-taxons-product-price__item-price').text().replace(/\s+/g, ''),
+                                image: $(element).find('img.catalog-taxons-product__image').attr('src').trim(),
+                                name: $(element).find('a.catalog-taxons-product__name').text().replace(/\s+/g, ' ').replace(/Наушники/i, '').trim(),
+                                type: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(0).text().replace(/\s+/g, ' ').trim(),
+                                wireless: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(1).text().replace(/\s+/g, ' ').trim(),
+                                frequency: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(2).text().replace(/\s+/g, ' ').trim(),
+                                resistance: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(3).text().replace(/\s+/g, ' ').trim(),
+                                sensitivity: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(4).text().replace(/\s+/g, ' ').trim()
+                            });
+                        });
+
+                        // Save the data to dataset.
+                        await Apify.pushData({
+                            url: request.url,
+                            dataA,
+                        });
+                    }
+                });
+
+                await crawler.run();
+               console.log('Crawler finished.');
+            });
+
+        } catch (e) {
+            console.log('err = ', e);
+        }
+    };
+
+    Apify1aee().then((value) => {
+        console.log(value); // Получилось!
+    });
+    //ApifySDK
 
 //Парсеры
 
