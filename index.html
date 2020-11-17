@@ -67,7 +67,11 @@
 <div class="container">
     <h1>Парсим данные с сайта 1A.ee - Все наушники в продаже</h1><br>
     <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">Парсить с помощью CHEERIO</button>
-    <button onclick="viewTable()" type="button" id="btnView" class="btn btn-danger">Показать данные</button>
+    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
+    <br>
+    <button onclick="clickedPuppeteer()" type="button" id="btnPuppeteer" class="btn btn-danger">Парсить с помощью Puppeteer</button>
+    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
+
     <div id='table_wrap' class="table_wrap">
         <table id='table' class="table">
             <thead>
@@ -99,9 +103,17 @@
         clickedCheerio = () => {
             socket.emit('clickedCheerio');
         };
-        socket.on('savedFile', () => {
+        socket.on('savedFileC', () => {
             alert('Файл 1aCheerio.json был сохранен на сервере');
         });
+
+        clickedPuppeteer = () => {
+            socket.emit('clickedPuppeteer');
+        };
+        socket.on('savedFileP', () => {
+            alert('Файл 1aPuppeteer.json был сохранен на сервере');
+        });
+
         socket.on('isTime', (isTime) => {
             let timePars = [];
             timePars = isTime;
