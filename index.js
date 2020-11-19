@@ -12,6 +12,9 @@ const cheerioPars = require('cheerio'); //Подключаем модуль дл
 const puppeteer = require('puppeteer');
 // const osmosis = require('osmosis');
 const Apify = require('apify');
+const Nightmare = require('nightmare');
+const nightmare = Nightmare({ show: false });
+
 
 let link = 'https://www.1a.ee/ru/c/tv-audio-video-igrovye-pristavki/audio-apparatura/naushniki/3sn?page=';
 let dataC = [];  //массив в который будем  пушить данные
@@ -258,10 +261,86 @@ io.sockets.on('connection', (socket) => {
         }
     };
 
-    Apify1aee().then((value) => {
-        console.log(value); // Получилось!
-    });
+    // Apify1aee().then((value) => {
+    //     console.log(value); // Получилось!
+    // });
     //ApifySDK
+
+    //nightmare
+    const Nightmare1aee = async()=>{
+        nightmare
+            .goto(link)
+            .wait('div.catalog-taxons-product')
+            .evaluate(() => {
+                let dataN = []; // Создаём пустой массив для хранения данных
+                let elements = document.querySelectorAll('div.catalog-taxons-product');
+
+
+                for (var element of elements) {
+                    let price = element.querySelector('span.catalog-taxons-product-price__item-price').innerText,
+                        image = element.querySelector('img.catalog-taxons-product__image').src,
+                        name = element.querySelector('a.catalog-taxons-product__name').innerText.replace(/Наушники/i, '').trim(),
+                        type = element.querySelector('ul.catalog-taxons-product-key-attribute-list li:nth-child(1) strong').innerText,
+                        wireless = element.querySelector('ul.catalog-taxons-product-key-attribute-list li:nth-child(2)  strong'),
+                        frequency = element.querySelector('ul.catalog-taxons-product-key-attribute-list li:nth-child(3) strong'),
+                        resistance = element.querySelector('ul.catalog-taxons-product-key-attribute-list li:nth-child(4) strong'),
+                        sensitivity = element.querySelector('ul.catalog-taxons-product-key-attribute-list li:nth-child(5) strong');
+
+
+                    if (wireless === null) {
+                        wireless = '';
+                    } else {
+                        wireless = wireless.innerText;
+                    }
+
+                    if (frequency === null) {
+                        frequency = '';
+                    } else {
+                        frequency = frequency.innerText;
+                    }
+
+                    if (resistance === null) {
+                        resistance = '';
+                    } else {
+                        resistance = resistance.innerText;
+                    }
+
+                    if (sensitivity === null) {
+                        sensitivity = '';
+                    } else {
+                        sensitivity = sensitivity.innerText;
+                    }
+
+                    dataN.push({
+                        price,
+                        image,
+                        name,
+                        type,
+                        wireless,
+                        frequency,
+                        resistance,
+                        sensitivity
+                    });
+                }
+
+                return dataN;
+            })
+            .end()
+            .then(data => {
+                //convert to JSON and save as file
+                fs.writeFile('1aNightmare.json', JSON.stringify(data), (err) => {
+                    if (err) throw  err;
+                    console.log('Saved 1aNigtmare1aee.json file');
+                });
+            })
+            .catch(error => {
+                console.error('Scraping failed:', error)
+            })
+    };
+
+
+    Nightmare1aee();
+    //nightmare
 
 //Парсеры
 
