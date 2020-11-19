@@ -68,8 +68,14 @@
     <h1>Парсим данные с сайта 1A.ee - Все наушники в продаже</h1><br>
     <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">Парсить с помощью CHEERIO</button>
     <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
-    <br>
+    <hr>
     <button onclick="clickedPuppeteer()" type="button" id="btnPuppeteer" class="btn btn-danger">Парсить с помощью Puppeteer</button>
+    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
+    <hr>
+    <button onclick="clickedNightmare()" type="button" id="btnNightmare" class="btn btn-danger">Парсить с помощью Nightmare</button>
+    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
+    <hr>
+    <button onclick="clickedApify()" type="button" id="btnApify" class="btn btn-danger">Парсить с помощью Apify</button>
     <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
 
     <div id='table_wrap' class="table_wrap">
@@ -112,6 +118,20 @@
         };
         socket.on('savedFileP', () => {
             alert('Файл 1aPuppeteer.json был сохранен на сервере');
+        });
+
+        clickedNightmare = () => {
+            socket.emit('clickedNightmare');
+        };
+        socket.on('savedFileN', () => {
+            alert('Файл 1aNightmare.json был сохранен на сервере');
+        });
+
+        clickedApify = () => {
+            socket.emit('clickedApify');
+        };
+        socket.on('savedFileA', () => {
+            alert('Файл 1aApify.json был сохранен на сервере');
         });
 
         socket.on('isTime', (isTime) => {

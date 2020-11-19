@@ -212,6 +212,7 @@ io.sockets.on('connection', (socket) => {
     //ApifySDK
     const Apify1aee = async () => {
         try {
+            const startA = new Date().getTime();
             Apify.main(async () => {
                 const requestList = await Apify.openRequestList('my-list', [
                     { url: link }
@@ -243,17 +244,24 @@ io.sockets.on('connection', (socket) => {
                                 sensitivity: $(element).find('ul.catalog-taxons-product-key-attribute-list li strong').eq(4).text().replace(/\s+/g, ' ').trim()
                             });
                         });
-
+                        socket.emit('receiveObject', dataA); //отправляем на клиент
                         // Save the data to dataset.
-                        await Apify.pushData({
-                            url: request.url,
-                            dataA,
+                        fs.writeFile('1aApify.json', JSON.stringify(dataA), (err) => {
+                            if (err) throw  err;
+                            const endA = new Date().getTime();
+                            const isTimeA = endA - startA;
+                            console.log(isTimeA + 'ms');
+                            socket.emit('isTime', {isTimeA: isTimeA});
+                            console.log('Saved 1aApify.json file');
+                            socket.emit('savedFileA');
                         });
                     }
                 });
 
                 await crawler.run();
+
                console.log('Crawler finished.');
+
             });
 
         } catch (e) {
@@ -261,13 +269,11 @@ io.sockets.on('connection', (socket) => {
         }
     };
 
-    // Apify1aee().then((value) => {
-    //     console.log(value); // Получилось!
-    // });
     //ApifySDK
 
     //nightmare
     const Nightmare1aee = async()=>{
+        const startN = new Date().getTime();
         nightmare
             .goto(link)
             .wait('div.catalog-taxons-product')
@@ -327,19 +333,22 @@ io.sockets.on('connection', (socket) => {
             })
             .end()
             .then(data => {
+                socket.emit('receiveObject', data); //отправляем на клиент
                 //convert to JSON and save as file
                 fs.writeFile('1aNightmare.json', JSON.stringify(data), (err) => {
                     if (err) throw  err;
+                    const endN = new Date().getTime();
+                    const isTimeN = endN - startN;
+                    console.log(isTimeN + 'ms');
+                    socket.emit('isTime', {isTimeN: isTimeN});
                     console.log('Saved 1aNigtmare1aee.json file');
+                    socket.emit('savedFileN');
                 });
             })
             .catch(error => {
                 console.error('Scraping failed:', error)
             })
     };
-
-
-    Nightmare1aee();
     //nightmare
 
 //Парсеры
@@ -355,6 +364,12 @@ io.sockets.on('connection', (socket) => {
     });
     socket.on('clickedPuppeteer', () => {
         Puppeteer1aee();
+    });
+    socket.on('clickedApify', () => {
+        Apify1aee();
+    });
+    socket.on('clickedNightmare', () => {
+        Nightmare1aee();
     });
 });
 
