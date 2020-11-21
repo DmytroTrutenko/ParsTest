@@ -9,9 +9,15 @@ const fs = require('fs');  //Подключаем модуль для работ
 const axios = require('axios');  //Подключаем модуль для работы с запросами на сервер
 
 const cheerioPars = require('cheerio'); //Подключаем модуль для работы с парсером Cheerio
+
+
 const puppeteer = require('puppeteer');
+
+
 // const osmosis = require('osmosis');
+
 const Apify = require('apify');
+
 const Nightmare = require('nightmare');
 const nightmare = Nightmare({ show: false });
 
@@ -38,7 +44,7 @@ io.sockets.on('connection', (socket) => {
     // Cheerio
     const Cheerio1aee = async () => {
         try {
-            const startC = new Date().getTime();
+            const start = new Date().getTime();
             let i = 1;        //счетчик страниц
             let flag = false;    //флаг для проверки конца страниц
             flag = true;
@@ -83,10 +89,10 @@ io.sockets.on('connection', (socket) => {
                     //создаем новый файл с новыми данными
                     fs.writeFile('1aCheerio.json', JSON.stringify(dataC), (err) => {
                         if (err) throw  err;
-                        const endC = new Date().getTime();
-                        const isTimeC = endC - startC;
-                        console.log(isTimeC + 'ms');
-                        socket.emit('isTime', {isTimeC: isTimeC});
+                        const end = new Date().getTime();
+                        const isTime = end - start;
+                        console.log(isTime + 'ms');
+                        socket.emit('isTime', {isTime: isTime});
                         console.log('Saved 1aCheerio.json file');
                         socket.emit('savedFileC');
                     });
@@ -103,7 +109,7 @@ io.sockets.on('connection', (socket) => {
     //Puppeteer
     const Puppeteer1aee = async () => {
         try {
-            const startP = new Date().getTime();
+            const start = new Date().getTime();
 
             const browser = await puppeteer.launch({headless: true});
             const page = await browser.newPage();
@@ -168,10 +174,10 @@ io.sockets.on('connection', (socket) => {
             socket.emit('receiveObject', result); //отправляем на клиент
             fs.writeFile('1aPuppeteer.json', JSON.stringify(result), (err) => {
                 if (err) throw  err;
-                const endP = new Date().getTime();
-                const isTimeP = endP - startP;
-                console.log(isTimeP + 'ms');
-                socket.emit('isTime', {isTimeP: isTimeP});
+                const end = new Date().getTime();
+                const isTime = end - start;
+                console.log(isTime + 'ms');
+                socket.emit('isTime', {isTime: isTime});
                 console.log('Saved 1aPuppeteer.json file');
                 socket.emit('savedFileP');
             });
@@ -212,7 +218,7 @@ io.sockets.on('connection', (socket) => {
     //ApifySDK
     const Apify1aee = async () => {
         try {
-            const startA = new Date().getTime();
+            const start = new Date().getTime();
             Apify.main(async () => {
                 const requestList = await Apify.openRequestList('my-list', [
                     { url: link }
@@ -245,13 +251,13 @@ io.sockets.on('connection', (socket) => {
                             });
                         });
                         socket.emit('receiveObject', dataA); //отправляем на клиент
-                        // Save the data to dataset.
+
                         fs.writeFile('1aApify.json', JSON.stringify(dataA), (err) => {
                             if (err) throw  err;
-                            const endA = new Date().getTime();
-                            const isTimeA = endA - startA;
-                            console.log(isTimeA + 'ms');
-                            socket.emit('isTime', {isTimeA: isTimeA});
+                            const end = new Date().getTime();
+                            const isTime = end - start;
+                            console.log(isTime + 'ms');
+                            socket.emit('isTime', {isTime: isTime});
                             console.log('Saved 1aApify.json file');
                             socket.emit('savedFileA');
                         });
@@ -273,7 +279,7 @@ io.sockets.on('connection', (socket) => {
 
     //nightmare
     const Nightmare1aee = async()=>{
-        const startN = new Date().getTime();
+        const start = new Date().getTime();
         nightmare
             .goto(link)
             .wait('div.catalog-taxons-product')
@@ -337,10 +343,10 @@ io.sockets.on('connection', (socket) => {
                 //convert to JSON and save as file
                 fs.writeFile('1aNightmare.json', JSON.stringify(data), (err) => {
                     if (err) throw  err;
-                    const endN = new Date().getTime();
-                    const isTimeN = endN - startN;
-                    console.log(isTimeN + 'ms');
-                    socket.emit('isTime', {isTimeN: isTimeN});
+                    const end = new Date().getTime();
+                    const isTime = end - start;
+                    console.log(isTime + 'ms');
+                    socket.emit('isTime', {isTime: isTime});
                     console.log('Saved 1aNigtmare1aee.json file');
                     socket.emit('savedFileN');
                 });

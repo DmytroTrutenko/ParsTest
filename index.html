@@ -60,7 +60,7 @@
             object-fit: contain;
         }
     </style>
-    <title>Cheerio parsing</title>
+    <title>Test parsing</title>
 </head>
 <body>
 
@@ -137,7 +137,7 @@
         socket.on('isTime', (isTime) => {
             let timePars = [];
             timePars = isTime;
-            console.log(timePars.isTime + ' ms')
+            console.log(timePars.isTime/1000 + ' sec')
         });
 
         socket.on('receiveObject', (data) => {
