@@ -1,23 +1,13 @@
 const express = require('express'); //подключаем модули
 const app = express(); //инициализируем експерс
 const server = require('http').createServer(app); //работа с сервером. библиотека http
-
-
 const io = require('socket.io').listen(server); // подключаем сокет ио для связи клиент - сервер
-
 const fs = require('fs');  //Подключаем модуль для работы с файловой системой
 const axios = require('axios');  //Подключаем модуль для работы с запросами на сервер
-
 const cheerioPars = require('cheerio'); //Подключаем модуль для работы с парсером Cheerio
-
-
 const puppeteer = require('puppeteer');
-
-
 // const osmosis = require('osmosis');
-
 const Apify = require('apify');
-
 const Nightmare = require('nightmare');
 const nightmare = Nightmare({ show: false });
 

@@ -5,30 +5,32 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
+        body {
+            box-sizing: border-box;
+        }
+
         .table_wrap {
             display: none;
         }
 
         .table th, .table td {
             border: 2px solid #fff;
-            padding: 10px 30px;
+            padding: 5px 5px;
             font-weight: 500;
             color: #444444;
             background-color: #fdf5d1;
             vertical-align: middle;
             position: relative;
+            text-align: center;
         }
 
         .table th {
-            vertical-align: middle;
-            text-align: center;
-            padding: 10px 12px;
             font-size: 14px;
         }
 
         .table {
             width: 100%;
-            font-size: 20px;
+            font-size: 18px;
             border-radius: 20px;
             overflow: hidden;
             border-spacing: 0;
@@ -46,37 +48,235 @@
         }
 
         .view {
-            display: block;
+            display: block !important;
         }
 
         .img_td {
             word-break: break-word;
         }
-        .img_td img{
+
+        .img_td img {
             display: block;
             margin: auto;
-            width: 200px;
-            height: 200px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
+        }
+
+        .first-screen {
+            position: absolute;
+            z-index: 22;
+            background: white;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .first-screen .container {
+            height: 100%;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .first-screen span {
+            font-size: 20px;
+        }
+
+        .first-screen h1 {
+            font-size: 36px;
+        }
+
+        .first-screen .name {
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .first-screen.hide {
+            display: none;
+        }
+
+        .btn-data {
+            display: none;
+        }
+
+        .button {
+            border: 1px solid #ffb900;
+            background-color: #ffb900;
+            text-transform: uppercase;
+            padding: 15px 40px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all .2s ease-out;
+            font-weight: 500;
+        }
+
+        .button:hover {
+            background-color: #fff;
+            border: 1px solid #FDB82C;
+            color: #FDB82C;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 60px;
+            margin-top: 60px;
+        }
+
+        .alogo {
+            background: #c0d534;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        h3 {
+            margin: 40px;
+        }
+
+        .first-screen .container {
+            position: relative;
+        }
+
+        .first-screen .line {
+            position: absolute;
+            background: #FDB82C;
+            display: block;
+        }
+
+        .first-screen .line:nth-child(1) {
+            top: 50px;
+            left: 0;
+            width: 2px;
+            height: 100px;
+            z-index: 33;
+        }
+
+        .first-screen .line:nth-child(2) {
+            top: 50px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+        }
+
+        .first-screen .line:nth-child(3) {
+            bottom: 50px;
+            right: 0;
+            width: 100px;
+            height: 2px;
+        }
+
+        .first-screen .line:nth-child(4) {
+            bottom: 50px;
+            right: 0;
+            width: 2px;
+            height: 100px;
+        }
+
+        .first-screen .text-right {
+            margin-right: 50px;
+        }
+
+        .gonext {
+            font-size: 14px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-weight: 500;
+            animation: 2s flare infinite ease;
+        }
+
+        .tools {
+            display: inline-block;
+        }
+
+        .btn-center {
+            margin: 0 auto;
+        }
+
+        .save_data {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sec {
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .results {
+            border: 1px solid #FDB82C;
+            max-width: 500px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 50px 15px;
+        }
+
+        @keyframes flare {
+            0% {
+                color: #000;
+            }
+            50% {
+                color: #FDB82C;
+            }
+            100% {
+                color: #000;
+            }
         }
     </style>
     <title>Test parsing</title>
 </head>
 <body>
-
+<div class="first-screen">
+    <div class="container">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <div>
+            <h1>ЭСТОНСКАЯ ВЫСШАЯ ШКОЛА <br>ПРЕДПРИНИМАТЕЛЬСТВА «МАЙНОР»</h1>
+            <span>Веб-дизайн и веб-технологии</span>
+        </div>
+        <div>
+            <span class="name">Dmytro Trutenko</span>
+            <h2>Определение оптимального инструмента парсинга сайтов.</h2>
+            <span>Заключительная работа</span>
+        </div>
+        <span class="text-right">Руководитель: Vladimir Tomberg, PhD</span>
+        <span>Таллин, 2020</span>
+        <p class="gonext">Нажмите двойной клик по экрану что бы продолжить</p>
+    </div>
+</div>
 <div class="container">
-    <h1>Парсим данные с сайта 1A.ee - Все наушники в продаже</h1><br>
-    <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="btn btn-danger">Парсить с помощью CHEERIO</button>
-    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
-    <hr>
-    <button onclick="clickedPuppeteer()" type="button" id="btnPuppeteer" class="btn btn-danger">Парсить с помощью Puppeteer</button>
-    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
-    <hr>
-    <button onclick="clickedNightmare()" type="button" id="btnNightmare" class="btn btn-danger">Парсить с помощью Nightmare</button>
-    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
-    <hr>
-    <button onclick="clickedApify()" type="button" id="btnApify" class="btn btn-danger">Парсить с помощью Apify</button>
-    <button onclick="viewTable()" type="button" class="btn btn-danger">Показать данные</button>
+
+    <h1 class="title">Веб-приложение для тестирования инструментов парсинга сайтов</h1>
+    <h4 class="text-center">
+        Сайт на котором будут проводиться тесты <a class="alogo"
+                                                   href="https://www.1a.ee/ru/c/komp-yuternaya-tehnika-tovary-dlya-ofisa/naushniki-mikrofony-i-komp-yuternye-dinamiki/naushniki/2tn">1a.ee
+    </a>
+    </h4>
+
+    <h3 class="tools">Исследуемые инструменты:</h3>
+    <button onclick="clickedCheerio()" type="button" id="btnCheerio" class="button">CHEERIO</button>
+    <button onclick="clickedPuppeteer()" type="button" id="btnPuppeteer" class="button">Puppeteer</button>
+    <button onclick="clickedApify()" type="button" id="btnApify" class="button">Apify</button>
+    <button onclick="clickedNightmare()" type="button" id="btnNightmare" class="button">Nightmare</button>
+
+    <div class="results btn-data">
+        <span class="save_data text-center"></span>
+        <span class="sec text-center"></span>
+        <button onclick="viewTable()" type="button" class="button btn-data btn-center">Показать данные</button>
+    </div>
+
 
     <div id='table_wrap' class="table_wrap">
         <table id='table' class="table">
@@ -96,6 +296,7 @@
             <tbody></tbody>
         </table>
     </div>
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -108,36 +309,49 @@
 
         clickedCheerio = () => {
             socket.emit('clickedCheerio');
+            $('.button').attr('disabled', true)
         };
         socket.on('savedFileC', () => {
-            alert('Файл 1aCheerio.json был сохранен на сервере');
+            $('.save_data').text('Файл 1aCheerio.json был сохранен на сервере');
+            $('.btn-data').addClass('view');
+            $('.button').attr('disabled', false)
         });
 
         clickedPuppeteer = () => {
             socket.emit('clickedPuppeteer');
+            $('.button').attr('disabled', true)
         };
         socket.on('savedFileP', () => {
-            alert('Файл 1aPuppeteer.json был сохранен на сервере');
+            $('.save_data').text('Файл 1aPuppeteer.json был сохранен на сервере');
+            $('.btn-data').addClass('view');
+            $('.button').attr('disabled', false)
         });
 
         clickedNightmare = () => {
             socket.emit('clickedNightmare');
+            $('.button').attr('disabled', true)
         };
         socket.on('savedFileN', () => {
-            alert('Файл 1aNightmare.json был сохранен на сервере');
+            $('.save_data').text('Файл 1aNightmare.json был сохранен на сервере');
+            $('.btn-data').addClass('view');
+            $('.button').attr('disabled', false)
         });
 
         clickedApify = () => {
             socket.emit('clickedApify');
+            $('.button').attr('disabled', true)
         };
         socket.on('savedFileA', () => {
-            alert('Файл 1aApify.json был сохранен на сервере');
+            $('.save_data').text('Файл 1aApify.json был сохранен на сервере');
+            $('.btn-data').addClass('view');
+            $('.button').attr('disabled', false)
         });
 
         socket.on('isTime', (isTime) => {
             let timePars = [];
             timePars = isTime;
-            console.log(timePars.isTime/1000 + ' sec')
+            let time = timePars.isTime / 1000;
+            $('.sec').text(time + ' секунд');
         });
 
         socket.on('receiveObject', (data) => {
@@ -175,6 +389,12 @@
             }
         }
     });
+
+    $(document).ready(() => {
+        $('.first-screen').dblclick(function () {
+            $(this).addClass('hide');
+        })
+    })
 
 </script>
 </body>
